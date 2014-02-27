@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'logger'
+require 'cf_canaries/cli'
+require 'cf_canaries/breeder'
+require 'cf_canaries/command_runner'
+
+cli = CfCanaries::Cli.new(ARGV)
+logger = Logger.new(STDOUT)
+
+begin
+  cli.parse!
+  cli.validate!
+
+  breeder = CfCanaries::Breeder.new(cli.options)
+  command_runner = CfCanaries::CommandRunner.new(logger, cli.options.dry_run)
+
+  breeder.breed(logger, command_runner)
+rescue => e
+  logger.error(e)
+  exit 1
+end
