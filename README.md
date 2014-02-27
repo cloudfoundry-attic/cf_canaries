@@ -1,6 +1,6 @@
 # CfCanaries
 
-TODO: Write a gem description
+Install canary apps into a Cloudfoundry cluster.
 
 ## Installation
 
