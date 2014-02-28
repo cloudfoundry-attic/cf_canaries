@@ -1,5 +1,7 @@
 # CfCanaries
 
+[![Build Status](https://travis-ci.org/pivotal-cf-experimental/cf_canaries.png)](https://travis-ci.org/pivotal-cf-experimental/cf_canaries)
+
 Install canary apps into a Cloudfoundry cluster.
 
 ## Installation
