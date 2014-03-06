@@ -1,7 +1,6 @@
 require 'thread'
 
 module CfCanaries
-  ERLANG_BUILDPACK='https://github.com/archaelus/heroku-buildpack-erlang.git'
   GO_BUILDPACK='git://github.com/vito/heroku-buildpack-go.git'
 
   class Breeder
@@ -35,9 +34,9 @@ module CfCanaries
       logger.info "pushing #{number_of_canaries} zero-downtime canaries"
 
       number_of_canaries.times do |i|
-        push_app(logger, runner, "zero-downtime-canary#{i + 1}", {PATH: '/app/otp/bin:bin:/usr/bin:/bin'},
-                 buildpack: ERLANG_BUILDPACK,
-                 directory_name: 'zero-downtime')
+        push_app(logger, runner, "zero-downtime-canary#{i + 1}", {},
+                 directory_name: 'zero-downtime',
+                 buildpack: GO_BUILDPACK)
       end
     end
 
