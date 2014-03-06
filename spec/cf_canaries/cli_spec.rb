@@ -8,7 +8,6 @@ module CfCanaries
         --number-of-zero-downtime-apps=20
         --number-of-instances-canary-instances=2
         --app-domain=my_app_domain.com
-        --canaries-path=my_canaries_path
         --target=api.my_app_domain.com
         --username=my_username
         --password=my_password
@@ -37,11 +36,6 @@ module CfCanaries
       it 'fails when --app-domain is not specified' do
         args.delete_if { |s| s.match /--app-domain/ }
         expect(cli).to fail_validation(/--app-domain is required/)
-      end
-
-      it 'fails when --canaries-path is not specified' do
-        args.delete_if { |s| s.match /--canaries-path/ }
-        expect(cli).to fail_validation(/--canaries-path is required/)
       end
 
       it 'fails when --target is not specified' do
@@ -78,7 +72,6 @@ module CfCanaries
         expect(opts.number_of_instances_canary_instances).to eq(2)
 
         expect(opts.app_domain).to eq('my_app_domain.com')
-        expect(opts.canaries_path).to eq('my_canaries_path')
         expect(opts.target).to eq('api.my_app_domain.com')
         expect(opts.username).to eq('my_username')
         expect(opts.password).to eq('my_password')

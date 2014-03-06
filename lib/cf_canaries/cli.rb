@@ -50,10 +50,6 @@ module CfCanaries
         die '--app-domain is required'
       end
 
-      if @options.canaries_path.nil?
-        die '--canaries-path is required'
-      end
-
       if @options.target.nil?
         die '--target is required'
       end
@@ -112,14 +108,6 @@ module CfCanaries
           'Domain to use for canary applications.'
         ) do |app_domain|
           @options.app_domain = app_domain
-        end
-
-        opts.on(
-          '-c CANARIES_PATH',
-          '--canaries-path CANARIES_PATH',
-          'Path to directory containing the canary apps.'
-        ) do |canaries_path|
-          @options.canaries_path = canaries_path
         end
 
         opts.on(

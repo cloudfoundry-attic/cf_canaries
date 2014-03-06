@@ -23,7 +23,6 @@ Or install it yourself as:
     $ canaries --number-of-zero-downtime-apps=0 \
                --number-of-instances-canary-instances=0 \
                --app-domain=<Application Domain> \
-               --canaries-path=<path/to/assets> \
                --target=<Cloudfoundry API Endpoint> \
                --username=<Cloudfoundry Username> \
                --password=<Cloudfoundry Password> \

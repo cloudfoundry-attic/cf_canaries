@@ -13,8 +13,7 @@ module CfCanaries
              number_of_zero_downtime_apps: 2,
              app_domain: 'app-domain',
              number_of_instances_canary_instances: 3,
-             number_of_instances_per_app: 4,
-             canaries_path: 'canaries-path')
+             number_of_instances_per_app: 4)
     end
 
     subject(:breeder) { described_class.new(options) }
@@ -51,7 +50,7 @@ module CfCanaries
           end
 
           it 'pushes an app' do
-            expected_command = /gcf push #{app_name} --no-start -p canaries-path\/.* -n #{app_name} -d app-domain -i #{instances}/
+            expected_command = /gcf push #{app_name} --no-start -p .*\/assets\/.* -n #{app_name} -d app-domain -i #{instances}/
             expect(runner).to receive(:run!).with(expected_command)
             breeder.breed(logger, runner)
           end

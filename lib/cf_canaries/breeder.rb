@@ -110,7 +110,11 @@ module CfCanaries
     end
 
     def canary_path(name)
-      "#{@options.canaries_path}/#{name}"
+      File.expand_path(name, canary_base_path)
+    end
+
+    def canary_base_path
+      File.expand_path('../../assets', File.dirname(__FILE__))
     end
 
     def app_exists?(logger, runner, name)
