@@ -14,10 +14,12 @@ module CfCanaries
 
       pid = spawn(command)
 
-      Process.wait(pid)
+      _, status = Process.wait2(pid)
 
-      raise "Command failed: #{command.inspect})" unless $?.success?
+      raise "Command failed: #{command.inspect})" unless status.success?
     end
+
+    private
 
     def spawn(command)
       Process.spawn(EMPTY_ENVIRONMENT, 'bash', '-c', command)
