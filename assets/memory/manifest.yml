@@ -1,0 +1,7 @@
+---
+applications:
+- name: mem
+  host: ${name}
+  instances: 2
+  env:
+    MEMORY: 112

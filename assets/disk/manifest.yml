@@ -1,0 +1,7 @@
+---
+applications:
+- name: disk
+  host: ${name}
+  instances: 2
+  env:
+    SPACE: 768

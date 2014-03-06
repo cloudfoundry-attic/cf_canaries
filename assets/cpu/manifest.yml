@@ -1,0 +1,6 @@
+---
+applications:
+- name: cpu
+  host: ${name}
+  instances: 2
+  env:

@@ -1,0 +1,11 @@
+---
+applications:
+- name: aviary
+  host: ${name}
+  instances: 2
+  env:
+    TARGET:
+    PASSWORD:
+    DOMAIN:
+    USERNAME:
+    NUM_INSTANCES: 54
