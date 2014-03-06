@@ -75,6 +75,8 @@ module CfCanaries
         expect(opts.target).to eq('api.my_app_domain.com')
         expect(opts.username).to eq('my_username')
         expect(opts.password).to eq('my_password')
+        expect(opts.organization).to eq('my_org')
+        expect(opts.space).to eq('my_space')
       end
 
       it 'exposes default options for non-required command line arguments' do
