@@ -5,7 +5,7 @@ class InstancePinger
 
   def initialize(url, instance_count)
     @url = url
-    @instance_count = instance_count
+    @instance_count = instance_count.to_i
   end
 
   def error_message
