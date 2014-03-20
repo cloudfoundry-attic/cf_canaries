@@ -1,5 +1,6 @@
 require "cfoundry"
 require "net/http"
+require_relative "instance_pinger"
 
 class InstancesAviary
   def initialize(target, user, password, org, space, app_name)
@@ -34,20 +35,6 @@ class InstancesAviary
   end
 
   def pinged_running_ratio
-    threads = []
-    indexes = {}
-    mutex = Mutex.new
-    url = app.url
-    num_instances = app.total_instances
-    (num_instances * 4).times do
-      threads << Thread.new(indexes) do |indexes|
-        index = Net::HTTP.get(url, '/instance-index')
-        mutex.synchronize { indexes[index] = true }
-      end
-    end
-
-    threads.each(&:join)
-
-    indexes.size.to_f / num_instances
+    InstancePinger.new(app).pinged_running_ratio
   end
 end

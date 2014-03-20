@@ -18,12 +18,12 @@ describe InstancesAviary do
   end
 
   describe '.pinged_running_ratio' do
-    it 'returns ratio of instances seen by pingging versus total number of instances' do
-      client.stub(app_by_name: app)
-      app.stub(url: 'fake_url')
-      app.stub(:total_instances).and_return(4)
-      Net::HTTP.should_receive(:get).exactly(16).times.and_return("1")
-      aviary.pinged_running_ratio.should == 0.25
+    let(:instance_pinger) { double("instance_pinger", pinged_running_ratio: 0.25) }
+
+    it 'delegates to an InstancePinger for its app' do
+      expect(InstancePinger).to receive(:new).and_return(instance_pinger)
+
+      expect(aviary.pinged_running_ratio).to eq 0.25
     end
   end
 
