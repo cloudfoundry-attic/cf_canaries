@@ -1,72 +1,65 @@
 require_relative 'spec_helper'
 
 describe InstancesAviary do
-  let(:aviary){ described_class.new('target', 'user', 'password', 'org', 'space', 'app')}
-  let(:client){ double( 'cfoundry_client').as_null_object }
-  let(:app){ double('app') }
+  let(:aviary) { described_class.new('target', 'user', 'password', 'org', 'space', 'app')}
+  let(:client) { double('cfoundry_client', app_by_name: app).as_null_object }
+  let(:app) { double('app', total_instances: 100, running_instances: 80, url: 'fake_url') }
+  let(:instance_pinger) { double('instance_pinger', pinged_running_ratio: 0.25) }
 
+  before do
+    allow(InstancePinger).to receive(:new).with('fake_url', instance_of(Fixnum)).and_return(instance_pinger)
+    allow(CFoundry::Client).to receive(:get).and_return(client)
+  end
 
-  before{ CFoundry::Client.stub(get: client ) }
-
-  describe '.cfoundry_running_ratio' do
+  describe '#cfoundry_running_ratio' do
     it 'returns the correct ratio' do
-      client.stub(app_by_name: app)
-      app.stub(:total_instances).and_return(100)
-      app.stub(:running_instances).and_return(80)
       aviary.cfoundry_running_ratio.should == 0.8
     end
   end
 
-  describe '.pinged_running_ratio' do
-    let(:instance_pinger) { double("instance_pinger", pinged_running_ratio: 0.25) }
-
+  describe '#pinged_running_ratio' do
     it 'delegates to an InstancePinger for its app' do
-      expect(InstancePinger).to receive(:new).and_return(instance_pinger)
-
       expect(aviary.pinged_running_ratio).to eq 0.25
+      expect(InstancePinger).to have_received(:new).with('fake_url', instance_of(Fixnum))
     end
   end
 
-  describe '.client' do
+  describe '#client' do
     it 'creates the client only once' do
-      CFoundry::Client.should_receive :get
-      aviary.client
-      CFoundry::Client.should_not_receive :get
-      aviary.client
+      expect(CFoundry::Client).to receive(:get).once
+      2.times { aviary.client }
     end
   end
 
-  describe '.ok?' do
-    context 'running more than 80% of the instances' do
+  describe '#ok?' do
+    context 'when at least 80% of the instances can be pinged' do
       before do
-        aviary.stub(:cfoundry_running_ratio).and_return(0.80)
-        aviary.stub(:pinged_running_ratio).and_return(0.80)
+        allow(instance_pinger).to receive(:pinged_running_ratio).and_return(0.80)
       end
 
-      it 'should be true' do
-        aviary.should be_ok
+      context 'and cloud controller reports at least 80% of the instances are up' do
+        it 'is ok' do
+          expect(aviary).to be_ok
+        end
+      end
+
+      context 'but cloud controller reports less than 80% of the instances are up' do
+        it 'is not ok' do
+          allow(app).to receive(:running_instances).and_return(20)
+          expect(aviary).not_to be_ok
+        end
       end
     end
 
-    context 'running less than 80% of the instances' do
+    context 'when less than 80% of the instances can be pinged' do
       before do
-        aviary.stub(:cfoundry_running_ratio).and_return(0.10)
+        allow(instance_pinger).to receive(:pinged_running_ratio).and_return(0.10)
       end
-      it 'should be false' do
-        aviary.should_not be_ok
+
+      it 'is not ok' do
+        expect(aviary).not_to be_ok
       end
     end
   end
 end
-
-
-
-#get '/instance_canary'
-#aviary = InstanceAviary.new(username, password, organization, space, app_name)
-
-#raise "ratio: #{aviary.running_ratio}" unless aviary.ok?
-
-#end
-
-#get '/zero_downtime_canary'
 

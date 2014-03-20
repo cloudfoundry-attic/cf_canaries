@@ -1,8 +1,7 @@
 require_relative 'spec_helper'
 
 describe InstancePinger do
-  subject(:instance_pinger) { InstancePinger.new(app) }
-  let(:app) { double("app", url: 'fake_url', total_instances: 4) }
+  subject(:instance_pinger) { InstancePinger.new('fake_url', 4) }
 
   describe "#pinged_running_ratio" do
     it 'returns ratio of instances seen by pinging versus total number of instances' do

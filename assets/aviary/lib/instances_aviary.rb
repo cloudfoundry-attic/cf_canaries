@@ -8,8 +8,7 @@ class InstancesAviary
   end
 
   def client
-    return @client if @client
-    @client = CFoundry::Client.get(@target).tap do |c|
+    @client ||= CFoundry::Client.get(@target).tap do |c|
       c.login(username: @user, password: @password)
       c.current_organization = c.organization_by_name(@org)
       c.current_space = c.space_by_name(@space)
@@ -22,8 +21,7 @@ class InstancesAviary
   end
 
   def app
-    return @app if @app
-    @app = client.app_by_name(@app_name)
+    @app ||= client.app_by_name(@app_name)
   end
 
   def ok?
@@ -35,6 +33,6 @@ class InstancesAviary
   end
 
   def pinged_running_ratio
-    InstancePinger.new(app).pinged_running_ratio
+    InstancePinger.new(app.url, app.total_instances).pinged_running_ratio
   end
 end
