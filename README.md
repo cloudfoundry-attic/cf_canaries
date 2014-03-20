@@ -18,6 +18,7 @@ Or install it yourself as:
 
     $ gem install cf_canaries
 
+
 ## Usage
 
     $ canaries --number-of-zero-downtime-apps=0 \
@@ -28,6 +29,13 @@ Or install it yourself as:
                --password=<Cloudfoundry Password> \
                --organization=<Cloudfoundry Organization> \
                --space=<Cloudfoundry Space>
+
+
+### Optional command-line flags
+
+- `--dry-run`: If set, shows all the commands the canary breeder will run without actually executing them
+- `--number-of-instances-per-app=<n>`: Push n instances of each app (apart from the instances canaries). Defaults to 1.
+
 
 ## Contributing
 
