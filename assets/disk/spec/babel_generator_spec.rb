@@ -6,7 +6,7 @@ describe BabelGenerator do
 
   describe '.cleanup' do
     it 'should do the correct system call' do
-      babel.should_receive(:`).with('rm dir/SPACE*.txt')
+      babel.should_receive(:`).with('rm -f dir/SPACE*.txt')
       babel.cleanup
     end
   end
