@@ -46,7 +46,9 @@ module CfCanaries
         USERNAME: @options.username,
         PASSWORD: @options.password,
         DOMAIN: @options.app_domain,
-        NUM_INSTANCES: @options.number_of_zero_downtime_apps
+        NUM_INSTANCES: @options.number_of_zero_downtime_apps,
+        ZERO_DOWNTIME_NUM_INSTANCES: @options.number_of_zero_downtime_apps,
+        INSTANCES_CANARY_NUM_INSTANCES: @options.number_of_instances_canary_instances,
       }
 
       push_app(logger, runner, 'aviary', env)
