@@ -32,6 +32,11 @@ get "/instances_pinged_aviary" do
   check(aviary)
 end
 
+get "/instances_from_cf_aviary" do
+  aviary = InstancesFromCFAviary.new(TARGET, USERNAME, PASSWORD, ORG, SPACE, INSTANCES_CANARY_APP_NAME)
+  check(aviary)
+end
+
 get "/zero_downtime_aviary" do
   aviary = ZeroDowntimeAviary.new(DOMAIN, ZERO_DOWNTIME_APP_NAME, ZERO_DOWNTIME_NUM_INSTANCES )
   check(aviary)
