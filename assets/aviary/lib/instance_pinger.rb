@@ -22,8 +22,11 @@ class InstancePinger
     mutex = Mutex.new
     (@instance_count * 4).times do
       threads << Thread.new(indexes) do |indexes|
-        index = Net::HTTP.get(@url, '/instance-index')
-        mutex.synchronize { indexes[index] = true }
+        resp = Net::HTTP.get_response(@url, '/instance-index')
+
+        if resp.code == '200'
+          mutex.synchronize { indexes[resp.body] = true }
+        end
       end
     end
 
@@ -31,5 +34,4 @@ class InstancePinger
 
     indexes.size.to_f / @instance_count
   end
-
 end
