@@ -15,4 +15,8 @@ class InstancesPingedAviary
   def error_message
     "Instances canary croaked (pinged running ratio: #{@instance_pinger.running_ratio})"
   end
+
+  def running_ratio
+    @instance_pinger.running_ratio
+  end
 end

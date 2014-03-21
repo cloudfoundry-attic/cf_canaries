@@ -37,4 +37,12 @@ describe InstancesPingedAviary do
       expect(aviary.error_message).to match(/running ratio: 0.8/)
     end
   end
+
+  describe '#running_ratio' do
+    it 'delegates to the pinger running_ratio' do
+      allow(pinger).to receive(:running_ratio).and_return(0.6)
+      expect(aviary.running_ratio).to eq 0.6
+      expect(pinger).to have_received(:running_ratio)
+    end
+  end
 end
