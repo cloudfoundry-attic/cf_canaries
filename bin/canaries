@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
+
 require 'logger'
 require 'cf_canaries/cli'
 require 'cf_canaries/breeder'
