@@ -4,7 +4,7 @@ describe InstancesAviary do
   let(:aviary) { described_class.new('target', 'user', 'password', 'org', 'space', 'app')}
   let(:client) { double('cfoundry_client', app_by_name: app).as_null_object }
   let(:app) { double('app', total_instances: 100, running_instances: 80, url: 'fake_url') }
-  let(:instance_pinger) { double('instance_pinger', pinged_running_ratio: 0.25) }
+  let(:instance_pinger) { double('instance_pinger', pinged_running_ratio: 0.25, ping!: 0.25) }
 
   before do
     allow(InstancePinger).to receive(:new).with('fake_url', instance_of(Fixnum)).and_return(instance_pinger)

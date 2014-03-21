@@ -6,9 +6,16 @@ describe InstancesPingedAviary do
 
   before do
     allow(InstancePinger).to receive(:new).and_return(pinger)
+    allow(pinger).to receive(:ping!)
   end
 
   describe '#ok?' do
+    it 'tells the pinger to ping!' do
+      allow(pinger).to receive(:pinged_running_ratio).and_return(0.8)
+      expect(pinger).to receive(:ping!)
+      aviary.ok?
+    end
+
     context 'when more than 80% of the instance canaries report' do
       it 'is ok' do
         expect(pinger).to receive(:pinged_running_ratio).and_return(0.8)

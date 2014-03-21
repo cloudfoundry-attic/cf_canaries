@@ -16,11 +16,7 @@ class InstancesAviary
   end
 
   def error_message
-    "Instances canary croaked (cfoundry running ratio: #{cfoundry_running_ratio}%, pinged running ratio: #{pinged_running_ratio}%)"
-  end
-
-  def app
-    @app ||= client.app_by_name(@app_name)
+    "Instances canary croaked (cfoundry running ratio: #{cfoundry_running_ratio}%, pinged running ratio: #{instance_pinger.pinged_running_ratio}%)"
   end
 
   def ok?
@@ -32,6 +28,17 @@ class InstancesAviary
   end
 
   def pinged_running_ratio
-    InstancePinger.new(app.url, app.total_instances).pinged_running_ratio
+    instance_pinger.ping!
+    instance_pinger.pinged_running_ratio
+  end
+
+  private
+
+  def app
+    @app ||= client.app_by_name(@app_name)
+  end
+
+  def instance_pinger
+    @instance_pinger ||= InstancePinger.new(app.url, app.total_instances)
   end
 end

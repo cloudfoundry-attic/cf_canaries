@@ -9,6 +9,7 @@ class InstancesPingedAviary
   end
 
   def ok?
+    @instance_pinger.ping!
     @instance_pinger.pinged_running_ratio >= HEALTH_THRESHOLD
   end
 

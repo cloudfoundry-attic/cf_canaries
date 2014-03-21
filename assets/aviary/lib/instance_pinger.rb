@@ -1,12 +1,15 @@
 require "net/http"
 
 class InstancePinger
+  attr_reader :pinged_running_ratio
+
   def initialize(url, instance_count)
     @url = url
     @instance_count = instance_count.to_i
+    @pinged_running_ratio = 0
   end
 
-  def pinged_running_ratio
+  def ping!
     threads = []
     indexes = {}
     mutex = Mutex.new
@@ -22,6 +25,6 @@ class InstancePinger
 
     threads.each(&:join)
 
-    indexes.size.to_f / @instance_count
+    @pinged_running_ratio = indexes.size.to_f / @instance_count
   end
 end
