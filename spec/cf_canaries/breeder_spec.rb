@@ -27,7 +27,7 @@ module CfCanaries
         breeder.breed(logger, runner)
       end
 
-      it 'logs in and selects pivotal organization and coal-mine space' do
+      it 'logs in and targets the specified organization and space' do
         expect(runner).to receive(:run!).with("gcf login -u 'username' -p 'password' -o canary-org -s canary-space")
         breeder.breed(logger, runner)
       end

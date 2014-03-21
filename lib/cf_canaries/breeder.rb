@@ -46,6 +46,8 @@ module CfCanaries
         USERNAME: @options.username,
         PASSWORD: @options.password,
         DOMAIN: @options.app_domain,
+        ORG: @options.organization,
+        SPACE: @options.space,
         ZERO_DOWNTIME_NUM_INSTANCES: @options.number_of_zero_downtime_apps,
         INSTANCES_CANARY_NUM_INSTANCES: @options.number_of_instances_canary_instances,
       }

@@ -5,12 +5,12 @@ require_relative 'lib/instances_aviary'
 require_relative 'lib/instances_heartbeats_aviary'
 require_relative 'lib/zero_downtime_aviary'
 
-TARGET = ENV["TARGET"]
-USERNAME = ENV["USERNAME"]
-PASSWORD = ENV["PASSWORD"]
-ORG = 'pivotal'
-DOMAIN = ENV["DOMAIN"]
-SPACE = "coal-mine"
+TARGET = ENV['TARGET']
+DOMAIN = ENV['DOMAIN']
+USERNAME = ENV['USERNAME']
+PASSWORD = ENV['PASSWORD']
+ORG = ENV['ORG']
+SPACE = ENV['SPACE']
 
 INSTANCES_CANARY_NUM_INSTANCES = ENV['INSTANCES_CANARY_NUM_INSTANCES'].to_i
 INSTANCES_CANARY_APP_NAME = 'instances-canary'
