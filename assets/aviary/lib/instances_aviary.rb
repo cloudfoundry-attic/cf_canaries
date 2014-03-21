@@ -12,7 +12,6 @@ class InstancesAviary
       c.login(username: @user, password: @password)
       c.current_organization = c.organization_by_name(@org)
       c.current_space = c.space_by_name(@space)
-      c.current_space.summarize!
     end
   end
 
