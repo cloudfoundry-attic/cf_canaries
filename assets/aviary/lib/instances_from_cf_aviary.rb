@@ -3,10 +3,13 @@ require "net/http"
 require_relative "instance_pinger"
 
 class InstancesFromCFAviary
+  attr_reader :running_ratio
+
   def initialize(target, user, password, org, space, app_name)
     @target = target
     @user, @password, @org, @space = user, password, org, space
     @app_name = app_name
+    @running_ratio = 0
   end
 
   def client
@@ -18,15 +21,15 @@ class InstancesFromCFAviary
   end
 
   def error_message
-    "Instances canary croaked (cfoundry running ratio: #{cfoundry_running_ratio})"
+    "Instances canary croaked (cfoundry running ratio: #{running_ratio})"
   end
 
   def ok?
-    cfoundry_running_ratio >= 0.8
+    check_cf_status! >= 0.8
   end
 
-  def cfoundry_running_ratio
-    app.running_instances.to_f  / app.total_instances
+  def check_cf_status!
+    @running_ratio = app.running_instances.to_f  / app.total_instances
   end
 
   private

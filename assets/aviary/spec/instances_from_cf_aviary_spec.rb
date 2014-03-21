@@ -18,19 +18,6 @@ describe InstancesFromCFAviary do
     allow(CFoundry::Client).to receive(:get).and_return(client)
   end
 
-  describe '#cfoundry_running_ratio' do
-    it 'returns the expected ratio' do
-      expect(aviary.cfoundry_running_ratio).to eq 0.8
-    end
-  end
-
-  describe '#client' do
-    it 'creates the client only once' do
-      expect(CFoundry::Client).to receive(:get).once
-      2.times { aviary.client }
-    end
-  end
-
   describe '#ok?' do
     context 'when cloud controller reports at least 80% of the instances are up' do
       it 'is ok' do
@@ -47,8 +34,40 @@ describe InstancesFromCFAviary do
   end
 
   describe '#error_message' do
-    it 'returns a message with the cfoundry running ratio' do
+    it 'returns a message with the latest  running ratio' do
+      aviary.check_cf_status!
       expect(aviary.error_message).to match(/running ratio: 0.8/)
+    end
+  end
+
+  describe '#running_ratio' do
+    it 'defaults to 0' do
+      expect(aviary.running_ratio).to eq 0
+    end
+
+    it 'returns the running ratio from the latest Cloud Foundry lookup' do
+      aviary.check_cf_status!
+      expect(aviary.running_ratio).to eq 0.8
+    end
+
+    it 'is not updated without calling check_cf_status! again' do
+      aviary.check_cf_status!
+      expect(aviary.running_ratio).to eq 0.8
+      allow(app).to receive(:running_instances).and_return(50)
+      expect(aviary.running_ratio).to eq 0.8
+    end
+  end
+
+  describe '#check_cf_status!' do
+    it 'returns the running ratio from the Cloud Foundry lookup' do
+      expect(aviary.check_cf_status!).to eq 0.8
+    end
+  end
+
+  describe '#client' do
+    it 'creates the client only once' do
+      expect(CFoundry::Client).to receive(:get).once
+      2.times { aviary.client }
     end
   end
 end
