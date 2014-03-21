@@ -11,7 +11,7 @@ describe 'The Aviary App' do
     context 'when canaries are ok' do
       before { InstancesAviary.any_instance.stub(ok?: true) }
 
-      it "sings" do
+      it 'sings' do
         get '/instances_aviary'
         last_response.should be_ok
         last_response.body.should == 'Sing'
@@ -21,7 +21,7 @@ describe 'The Aviary App' do
     context 'when canaries are not ok' do
       before { InstancesAviary.any_instance.stub(ok?: false, running_ratio: 0.1) }
 
-      it "returns a 500" do
+      it 'returns a 500' do
         get '/instances_aviary'
         last_response.status.should == 500
       end
@@ -37,7 +37,7 @@ describe 'The Aviary App' do
     context 'when canaries are ok' do
       before { InstancePinger.any_instance.stub(running_ratio: 0.9) }
 
-      it "sings" do
+      it 'sings' do
         get '/instances_pinged_aviary'
         last_response.should be_ok
         last_response.body.should == 'Sing'
@@ -45,9 +45,9 @@ describe 'The Aviary App' do
     end
 
     context 'when canaries are not ok' do
-      before { InstancePinger.any_instance.stub(pinged_running_ratio: 0.1) }
+      before { InstancePinger.any_instance.stub(running_ratio: 0.1) }
 
-      it "returns a 500" do
+      it 'returns a 500' do
         get '/instances_pinged_aviary'
         last_response.status.should == 500
       end
@@ -63,7 +63,7 @@ describe 'The Aviary App' do
     context 'when canaries are ok' do
       before { ZeroDowntimeAviary.any_instance.stub(ok?: true) }
 
-      it "sings" do
+      it 'sings' do
         get '/zero_downtime_aviary'
         last_response.should be_ok
         last_response.body.should == 'Sing'
@@ -73,7 +73,7 @@ describe 'The Aviary App' do
     context 'when canaries are not ok' do
       before { ZeroDowntimeAviary.any_instance.stub(ok?: false, dead_canaries: ['2']) }
 
-      it "returns a 500" do
+      it 'returns a 500' do
         get '/zero_downtime_aviary'
         last_response.status.should == 500
       end

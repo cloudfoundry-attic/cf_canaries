@@ -41,6 +41,6 @@ class InstancesAviary
   end
 
   def instance_pinger
-    @instance_pinger ||= InstancePinger.new(app.url, app.total_instances)
+    @instance_pinger ||= InstancePinger.new(@app_name, @domain, @instance_count)
   end
 end

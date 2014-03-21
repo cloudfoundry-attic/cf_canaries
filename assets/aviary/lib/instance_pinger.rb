@@ -3,8 +3,8 @@ require "net/http"
 class InstancePinger
   attr_reader :running_ratio
 
-  def initialize(url, instance_count)
-    @url = url
+  def initialize(app_name, domain, instance_count)
+    @url = "#{app_name}.#{domain}"
     @instance_count = instance_count.to_i
     @running_ratio = 0
   end

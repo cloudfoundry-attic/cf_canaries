@@ -4,8 +4,7 @@ class InstancesPingedAviary
   HEALTH_THRESHOLD = 0.8
 
   def initialize(app, domain, instance_count)
-    url = "#{app}.#{domain}"
-    @instance_pinger = InstancePinger.new(url, instance_count.to_i)
+    @instance_pinger = InstancePinger.new(app, domain, instance_count.to_i)
   end
 
   def ok?

@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
 describe InstancePinger do
-  subject(:instance_pinger) { InstancePinger.new('fake_url', 4) }
+  subject(:instance_pinger) { InstancePinger.new('fake_app', 'fake_domain', 4) }
 
   def fake_response(code, body)
     double(Net::HTTPResponse, code: code, body: body)

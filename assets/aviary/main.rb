@@ -27,7 +27,6 @@ get "/instances_aviary" do
 end
 
 get "/instances_pinged_aviary" do
-  url = "#{INSTANCES_CANARY_APP_NAME}.#{DOMAIN}"
   aviary = InstancesPingedAviary.new(INSTANCES_CANARY_APP_NAME, DOMAIN, INSTANCES_CANARY_NUM_INSTANCES)
   check(aviary)
 end
