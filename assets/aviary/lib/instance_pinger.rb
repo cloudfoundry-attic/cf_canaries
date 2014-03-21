@@ -1,19 +1,9 @@
 require "net/http"
 
 class InstancePinger
-  HEALTH_THRESHOLD = 0.8
-
   def initialize(url, instance_count)
     @url = url
     @instance_count = instance_count.to_i
-  end
-
-  def error_message
-    "Instances canary croaked (pinged running ratio: #{pinged_running_ratio})"
-  end
-
-  def ok?
-    pinged_running_ratio >= HEALTH_THRESHOLD
   end
 
   def pinged_running_ratio

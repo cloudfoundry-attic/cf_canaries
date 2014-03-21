@@ -3,6 +3,7 @@ require "cfoundry"
 require_relative 'lib/instance_pinger'
 require_relative 'lib/instances_aviary'
 require_relative 'lib/instances_heartbeats_aviary'
+require_relative 'lib/instances_pinged_aviary'
 require_relative 'lib/zero_downtime_aviary'
 
 TARGET = ENV['TARGET']
@@ -27,7 +28,7 @@ end
 
 get "/instances_pinged_aviary" do
   url = "#{INSTANCES_CANARY_APP_NAME}.#{DOMAIN}"
-  aviary = InstancePinger.new(url, INSTANCES_CANARY_NUM_INSTANCES)
+  aviary = InstancesPingedAviary.new(INSTANCES_CANARY_APP_NAME, DOMAIN, INSTANCES_CANARY_NUM_INSTANCES)
   check(aviary)
 end
 
