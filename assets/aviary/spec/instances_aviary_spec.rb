@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
 describe InstancesAviary do
-  let(:aviary) { described_class.new('target', 'user', 'password', 'org', 'space', 'app')}
+  let(:aviary) { described_class.new('target', 'domain', 'user', 'password', 'org', 'space', 'app', 100)}
   let(:client) { double('cfoundry_client', app_by_name: app).as_null_object }
   let(:app) { double('app', total_instances: 100, running_instances: 80, url: 'fake_url') }
   let(:instance_pinger) { double('instance_pinger', running_ratio: 0.25, ping!: 0.25) }

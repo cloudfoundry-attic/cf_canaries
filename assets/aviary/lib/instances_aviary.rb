@@ -3,8 +3,10 @@ require "net/http"
 require_relative "instance_pinger"
 
 class InstancesAviary
-  def initialize(target, user, password, org, space, app_name)
-    @target, @user, @password, @org, @space, @app_name = target, user, password, org, space, app_name
+  def initialize(target, domain, user, password, org, space, app_name, instance_count)
+    @target, @domain = target, domain
+    @user, @password, @org, @space = user, password, org, space
+    @app_name, @instance_count = app_name, instance_count
   end
 
   def client
