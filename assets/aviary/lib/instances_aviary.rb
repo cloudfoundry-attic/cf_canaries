@@ -16,7 +16,7 @@ class InstancesAviary
   end
 
   def error_message
-    "Instances canary croaked (cfoundry running ratio: #{cfoundry_running_ratio}%, pinged running ratio: #{instance_pinger.pinged_running_ratio}%)"
+    "Instances canary croaked (cfoundry running ratio: #{cfoundry_running_ratio}%, pinged running ratio: #{instance_pinger.running_ratio}%)"
   end
 
   def ok?
@@ -29,7 +29,7 @@ class InstancesAviary
 
   def pinged_running_ratio
     instance_pinger.ping!
-    instance_pinger.pinged_running_ratio
+    instance_pinger.running_ratio
   end
 
   private

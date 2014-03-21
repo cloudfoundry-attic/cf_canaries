@@ -10,10 +10,10 @@ class InstancesPingedAviary
 
   def ok?
     @instance_pinger.ping!
-    @instance_pinger.pinged_running_ratio >= HEALTH_THRESHOLD
+    @instance_pinger.running_ratio >= HEALTH_THRESHOLD
   end
 
   def error_message
-    "Instances canary croaked (pinged running ratio: #{@instance_pinger.pinged_running_ratio})"
+    "Instances canary croaked (pinged running ratio: #{@instance_pinger.running_ratio})"
   end
 end

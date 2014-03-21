@@ -30,15 +30,15 @@ describe InstancePinger do
     end
   end
 
-  describe '#pinged_running_ratio' do
+  describe '#running_ratio' do
     it 'defaults to 0' do
-      expect(instance_pinger.pinged_running_ratio).to be 0
+      expect(instance_pinger.running_ratio).to be 0
     end
 
     it 'does not ping the instances itself' do
       allow(Net::HTTP).to receive(:get_response)
 
-      instance_pinger.pinged_running_ratio
+      instance_pinger.running_ratio
 
       expect(Net::HTTP).not_to have_received(:get_response)
     end
@@ -50,7 +50,7 @@ describe InstancePinger do
       end
 
       it 'returns the latest ping! result' do
-        expect(instance_pinger.pinged_running_ratio).to eq 0.25
+        expect(instance_pinger.running_ratio).to eq 0.25
       end
     end
   end

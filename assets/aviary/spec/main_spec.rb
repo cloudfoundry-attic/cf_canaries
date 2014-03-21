@@ -35,7 +35,7 @@ describe 'The Aviary App' do
 
   describe 'GET /instances_pinged_aviary' do
     context 'when canaries are ok' do
-      before { InstancePinger.any_instance.stub(pinged_running_ratio: 0.9) }
+      before { InstancePinger.any_instance.stub(running_ratio: 0.9) }
 
       it "sings" do
         get '/instances_pinged_aviary'
