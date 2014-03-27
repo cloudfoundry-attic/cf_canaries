@@ -22,16 +22,6 @@ module CfCanaries
         command_runner.cf!(command)
       end
 
-      context "when not specifying a cf_command in the initializer" do
-        subject(:command_runner) { CommandRunner.new(logger, dry_run) }
-
-        it "defaults to gcf" do
-          expect(logger).to receive(:info).with('gcf apps')
-          expect(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: true)])
-          command_runner.cf!(command)
-        end
-      end
-
       context "running in dry_run mode" do
         let(:dry_run) { true }
 

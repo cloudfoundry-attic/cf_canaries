@@ -16,6 +16,7 @@ module CfCanaries
       organization: nil,
       space: nil,
       dry_run: false,
+      cf_command: 'gcf',
     }
 
     class Options < Struct.new(*OPTIONS.keys)
@@ -149,6 +150,13 @@ module CfCanaries
           '--dry-run', "Only print the commands that would run. DEFAULT: #{@options.dry_run}"
         ) do |dry_run|
           @options.dry_run = dry_run
+        end
+
+        opts.on(
+          '--cf-command CF_COMMAND',
+          'cf cli command. DEFAULT: gcf',
+        ) do |cf_command|
+          @options.cf_command = cf_command
         end
       end
     end

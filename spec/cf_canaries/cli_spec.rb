@@ -84,6 +84,7 @@ module CfCanaries
         opts = cli.options
         expect(opts.dry_run).to eq(false)
         expect(opts.number_of_instances_per_app).to eq(1)
+        expect(opts.cf_command).to eq('gcf')
       end
 
       describe 'overridden, non-required options' do
@@ -101,6 +102,14 @@ module CfCanaries
           expect(cli).to validate_successfully
           opts = cli.options
           expect(opts.number_of_instances_per_app).to eq(2)
+        end
+
+        it 'exposes overridden --cf-command' do
+          args << '--cf-command=my-cf'
+
+          expect(cli).to validate_successfully
+          opts = cli.options
+          expect(opts.cf_command).to eq('my-cf')
         end
       end
     end
