@@ -2,13 +2,14 @@ module CfCanaries
   class CommandRunner
     EMPTY_ENVIRONMENT = {}.freeze
 
-    def initialize(logger, dry_run)
+    def initialize(logger, dry_run, cf_command='gcf')
       @logger = logger
       @dry_run = dry_run
+      @cf_command = cf_command
     end
 
     def cf!(command)
-      run!("gcf #{command}")
+      run!("#{@cf_command} #{command}")
     end
 
     private
