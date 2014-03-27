@@ -15,7 +15,7 @@ begin
   cli.validate!
 
   breeder = CfCanaries::Breeder.new(cli.options)
-  command_runner = CfCanaries::CommandRunner.new(logger, cli.options.dry_run)
+  command_runner = CfCanaries::CommandRunner.new(logger, cli.options.dry_run, cli.options.cf_command)
 
   breeder.breed(logger, command_runner)
 rescue => e
