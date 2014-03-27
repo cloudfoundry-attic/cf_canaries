@@ -7,6 +7,12 @@ module CfCanaries
       @dry_run = dry_run
     end
 
+    def cf!(command)
+      run!("gcf #{command}")
+    end
+
+    private
+
     def run!(command)
       @logger.info(command)
 
@@ -18,8 +24,6 @@ module CfCanaries
 
       raise "Command failed: #{command.inspect})" unless status.success?
     end
-
-    private
 
     def spawn(command)
       Process.spawn(EMPTY_ENVIRONMENT, 'bash', '-c', command)

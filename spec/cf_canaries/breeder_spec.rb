@@ -19,39 +19,39 @@ module CfCanaries
     subject(:breeder) { described_class.new(options) }
 
     describe '#breed' do
-      let(:runner) { double(:runner, run!: nil) }
+      let(:runner) { double(:runner, cf!: nil) }
       let(:logger) { double(:logger).as_null_object }
 
       it 'targets the provided api target' do
-        expect(runner).to receive(:run!).with('gcf api some-target')
+        expect(runner).to receive(:cf!).with('api some-target')
         breeder.breed(logger, runner)
       end
 
       it 'logs in and targets the specified organization and space' do
-        expect(runner).to receive(:run!).with("gcf login -u 'username' -p 'password' -o canary-org -s canary-space")
+        expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space")
         breeder.breed(logger, runner)
       end
 
       def self.it_pushes_an_app_if_it_does_not_exist(app_name, instances)
         context 'when app exists?' do
           before do
-            expect(runner).to receive(:run!).with("gcf app #{app_name}")
+            expect(runner).to receive(:cf!).with("app #{app_name}")
           end
 
           it 'does not push a an app' do
-            expect(runner).to_not receive(:run!).with(/gcf push #{app_name}/)
+            expect(runner).to_not receive(:cf!).with(/push #{app_name}/)
             breeder.breed(logger, runner)
           end
         end
 
         context 'when app does not exist' do
           before do
-            expect(runner).to receive(:run!).with("gcf app #{app_name}").and_raise
+            expect(runner).to receive(:cf!).with("app #{app_name}").and_raise
           end
 
           it 'pushes an app' do
-            expected_command = /gcf push #{app_name} --no-start -p .*\/assets\/.* -n #{app_name} -d app-domain -i #{instances}/
-            expect(runner).to receive(:run!).with(expected_command)
+            expected_command = /push #{app_name} --no-start -p .*\/assets\/.* -n #{app_name} -d app-domain -i #{instances}/
+            expect(runner).to receive(:cf!).with(expected_command)
             breeder.breed(logger, runner)
           end
         end

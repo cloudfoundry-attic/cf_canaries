@@ -10,8 +10,8 @@ module CfCanaries
 
     def breed(logger, runner)
       logger.info 'targeting and logging in'
-      runner.run!("gcf api #{@options.target}")
-      runner.run!("gcf login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}")
+      runner.cf!("api #{@options.target}")
+      runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}")
 
       logger.info 'breeding canaries'
 
@@ -97,19 +97,19 @@ module CfCanaries
 
       command =
         [
-          "gcf push #{name} --no-start",
+          "push #{name} --no-start",
           "-p #{canary_path(directory_name)}",
           "-n #{name} -d #{@options.app_domain}",
           "-i #{instances} -m #{memory}",
           "-b '#{buildpack}'"
         ].join(' ')
 
-      runner.run!(command)
+      runner.cf!(command)
 
       env.each do |k, v|
-        runner.run!("gcf set-env #{name} #{k} '#{v}'")
+        runner.cf!("set-env #{name} #{k} '#{v}'")
       end
-      runner.run!("gcf start #{name}")
+      runner.cf!("start #{name}")
     end
 
     def canary_path(name)
@@ -124,7 +124,7 @@ module CfCanaries
       logger.info "checking for app #{name}"
 
       begin
-        runner.run!("gcf app #{name}")
+        runner.cf!("app #{name}")
         true
       rescue RuntimeError => e
         logger.error(e)
