@@ -85,6 +85,10 @@ module CfCanaries
       describe 'instances canary' do
         it_pushes_an_app_if_it_does_not_exist('instances-canary', 3)
       end
+
+      describe 'long-running canary' do
+        it_pushes_an_app_if_it_does_not_exist('long-running-canary', 4)
+      end
     end
   end
 end

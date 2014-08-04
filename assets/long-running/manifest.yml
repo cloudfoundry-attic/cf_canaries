@@ -1,7 +1,0 @@
----
-applications:
-- name: long-running-canary-app
-  memory: 256M
-  instances: 2
-  host: long-running-canary-app
-  path: .

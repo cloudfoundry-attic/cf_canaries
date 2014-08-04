@@ -84,7 +84,7 @@ module CfCanaries
         opts = cli.options
         expect(opts.dry_run).to eq(false)
         expect(opts.number_of_instances_per_app).to eq(1)
-        expect(opts.cf_command).to eq('gcf')
+        expect(opts.cf_command).to eq('cf')
       end
 
       describe 'overridden, non-required options' do

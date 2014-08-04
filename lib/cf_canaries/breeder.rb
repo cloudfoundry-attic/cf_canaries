@@ -1,8 +1,6 @@
 require 'thread'
 
 module CfCanaries
-  GO_BUILDPACK='git://github.com/vito/heroku-buildpack-go.git'
-
   class Breeder
     def initialize(options)
       @options = options
@@ -22,6 +20,7 @@ module CfCanaries
       push_memory_canary(logger, runner)
       push_network_canary(logger, runner)
       push_instances_canary(logger, runner)
+      push_long_running_canary(logger, runner)
 
       logger.info 'TWEET TWEET'
     end
@@ -34,9 +33,11 @@ module CfCanaries
       logger.info "pushing #{number_of_canaries} zero-downtime canaries"
 
       number_of_canaries.times do |i|
-        push_app(logger, runner, "zero-downtime-canary#{i + 1}", {},
-                 directory_name: 'zero-downtime',
-                 buildpack: GO_BUILDPACK)
+        push_app(
+          logger, runner, "zero-downtime-canary#{i + 1}", {},
+          directory_name: 'zero-downtime/src/zero-downtime',
+          memory: '128M'
+        )
       end
     end
 
@@ -60,7 +61,7 @@ module CfCanaries
     end
 
     def push_disk_canary(logger, runner)
-      push_app(logger, runner, 'disk', {SPACE: '768'}, memory: '2G')
+      push_app(logger, runner, 'disk', {SPACE: '768'}, memory: '512M')
     end
 
     def push_memory_canary(logger, runner)
@@ -68,15 +69,26 @@ module CfCanaries
     end
 
     def push_network_canary(logger, runner)
-      push_app(logger, runner, 'network', {}, buildpack: GO_BUILDPACK)
+      push_app(
+        logger, runner, 'network', {},
+        memory:         '128M',
+        directory_name: 'network/src/network-canary')
     end
 
     def push_instances_canary(logger, runner)
       push_app(
         logger, runner, 'instances-canary', {},
-        instances: @options.number_of_instances_canary_instances,
-        memory: '128M',
+        instances:      @options.number_of_instances_canary_instances,
+        memory:         '128M',
         directory_name: 'instances'
+      )
+    end
+
+    def push_long_running_canary(logger, runner)
+      push_app(
+        logger, runner, 'long-running-canary', {},
+        memory:         '128M',
+        directory_name: 'long-running'
       )
     end
 
@@ -97,10 +109,13 @@ module CfCanaries
 
       command =
         [
-          "push #{name} --no-start",
+          "push #{name}",
+          "--no-start",
           "-p #{canary_path(directory_name)}",
-          "-n #{name} -d #{@options.app_domain}",
-          "-i #{instances} -m #{memory}",
+          "-n #{name}",
+          "-d #{@options.app_domain}",
+          "-i #{instances}",
+          "-m #{memory}",
           "-b '#{buildpack}'"
         ].join(' ')
 

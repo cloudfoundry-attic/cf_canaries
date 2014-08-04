@@ -1,0 +1,5 @@
+{
+	"ImportPath": "network-canary",
+	"GoVersion": "go1.2.1",
+	"Deps": []
+}

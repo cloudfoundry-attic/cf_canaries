@@ -16,7 +16,7 @@ module CfCanaries
       organization: nil,
       space: nil,
       dry_run: false,
-      cf_command: 'gcf',
+      cf_command: 'cf',
     }
 
     class Options < Struct.new(*OPTIONS.keys)

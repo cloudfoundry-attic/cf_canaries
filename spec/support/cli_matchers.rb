@@ -19,7 +19,7 @@ module CliMatchers
       @err.to_s.match(message)
     end
 
-    failure_message_for_should do |_|
+    failure_message do |_|
       if @err.nil?
         "Expected failure message matching #{message}, but got nothing"
       else
