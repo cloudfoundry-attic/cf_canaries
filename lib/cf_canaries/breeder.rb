@@ -8,7 +8,11 @@ module CfCanaries
 
     def breed(logger, runner)
       logger.info 'targeting and logging in'
-      runner.cf!("api #{@options.target}")
+      runner.cf!([
+        "api",
+        @options.target,
+        @options.skip_ssl_validation ? "--skip-ssl-validation" : nil
+      ].compact.join(' '))
       runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}")
 
       logger.info 'breeding canaries'

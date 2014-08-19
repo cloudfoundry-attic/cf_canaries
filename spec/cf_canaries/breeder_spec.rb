@@ -1,19 +1,21 @@
 require 'spec_helper'
 require 'cf_canaries/breeder'
+require 'cf_canaries/cli'
 
 module CfCanaries
   describe Breeder do
     let(:options) do
-      double(:options,
-             target: 'some-target',
-             username: 'username',
-             password: 'password',
-             organization: 'canary-org',
-             space: 'canary-space',
-             number_of_zero_downtime_apps: 2,
-             app_domain: 'app-domain',
-             number_of_instances_canary_instances: 3,
-             number_of_instances_per_app: 4)
+      Cli::Options.new.tap do |o|
+        o.target = 'some-target'
+        o.username = 'username'
+        o.password = 'password'
+        o.organization = 'canary-org'
+        o.space = 'canary-space'
+        o.number_of_zero_downtime_apps = 2
+        o.app_domain = 'app-domain'
+        o.number_of_instances_canary_instances = 3
+        o.number_of_instances_per_app = 4
+      end
     end
 
     subject(:breeder) { described_class.new(options) }
@@ -30,6 +32,17 @@ module CfCanaries
       it 'logs in and targets the specified organization and space' do
         expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space")
         breeder.breed(logger, runner)
+      end
+
+      context 'when skipping SSL validation' do
+        before do
+          options.skip_ssl_validation = true
+        end
+
+        it 'provides the skip-ssl-validation flag to the CLI when logging in' do
+          expect(runner).to receive(:cf!).with("api some-target --skip-ssl-validation")
+          breeder.breed(logger, runner)
+        end
       end
 
       def self.it_pushes_an_app_if_it_does_not_exist(app_name, instances)

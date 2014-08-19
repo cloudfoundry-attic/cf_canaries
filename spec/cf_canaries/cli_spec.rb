@@ -111,6 +111,14 @@ module CfCanaries
           opts = cli.options
           expect(opts.cf_command).to eq('my-cf')
         end
+
+        it 'exposes the skip-ssl-validation flag' do
+          args << '--skip-ssl-validation'
+
+          expect(cli).to validate_successfully
+          opts = cli.options
+          expect(opts.skip_ssl_validation).to eq(true)
+        end
       end
     end
   end

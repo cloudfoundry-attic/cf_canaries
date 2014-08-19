@@ -17,6 +17,7 @@ module CfCanaries
       space: nil,
       dry_run: false,
       cf_command: 'cf',
+      skip_ssl_validation: false,
     }
 
     class Options < Struct.new(*OPTIONS.keys)
@@ -157,6 +158,13 @@ module CfCanaries
           'cf cli command. DEFAULT: gcf',
         ) do |cf_command|
           @options.cf_command = cf_command
+        end
+
+        opts.on(
+          '--skip-ssl-validation',
+          "Skip SSL validation for API requests. DEFAULT: #{@options.skip_ssl_validation}",
+        ) do |skip_ssl_validation|
+          @options.skip_ssl_validation = skip_ssl_validation
         end
       end
     end
