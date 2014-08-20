@@ -85,6 +85,8 @@ module CfCanaries
         expect(opts.dry_run).to eq(false)
         expect(opts.number_of_instances_per_app).to eq(1)
         expect(opts.cf_command).to eq('cf')
+        expect(opts.skip_ssl_validation).to eq(false)
+        expect(opts.diego).to eq(false)
       end
 
       describe 'overridden, non-required options' do
@@ -118,6 +120,14 @@ module CfCanaries
           expect(cli).to validate_successfully
           opts = cli.options
           expect(opts.skip_ssl_validation).to eq(true)
+        end
+
+        it 'exposes the diego flag' do
+          args << '--diego'
+
+          expect(cli).to validate_successfully
+          opts = cli.options
+          expect(opts.diego).to eq(true)
         end
       end
     end

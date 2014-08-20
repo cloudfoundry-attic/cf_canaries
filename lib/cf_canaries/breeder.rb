@@ -57,6 +57,7 @@ module CfCanaries
         INSTANCES_CANARY_NUM_INSTANCES: @options.number_of_instances_canary_instances,
       }
 
+
       push_app(logger, runner, 'aviary', env)
     end
 
@@ -125,9 +126,14 @@ module CfCanaries
 
       runner.cf!(command)
 
+      if @options.diego
+        runner.cf!("set-env #{name} CF_DIEGO_RUN_BETA true")
+      end
+
       env.each do |k, v|
         runner.cf!("set-env #{name} #{k} '#{v}'")
       end
+
       runner.cf!("start #{name}")
     end
 

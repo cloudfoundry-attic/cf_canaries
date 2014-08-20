@@ -18,6 +18,7 @@ module CfCanaries
       dry_run: false,
       cf_command: 'cf',
       skip_ssl_validation: false,
+      diego: false,
     }
 
     class Options < Struct.new(*OPTIONS.keys)
@@ -165,6 +166,13 @@ module CfCanaries
           "Skip SSL validation for API requests. DEFAULT: #{@options.skip_ssl_validation}",
         ) do |skip_ssl_validation|
           @options.skip_ssl_validation = skip_ssl_validation
+        end
+
+        opts.on(
+          '--diego',
+          "Stage and run apps on diego. DEFAULT: #{@options.diego}",
+        ) do |diego|
+          @options.diego = diego
         end
       end
     end

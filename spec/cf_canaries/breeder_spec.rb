@@ -67,6 +67,23 @@ module CfCanaries
             expect(runner).to receive(:cf!).with(expected_command)
             breeder.breed(logger, runner)
           end
+
+          context 'when using diego' do
+            before { options.diego = true }
+
+            it 'sets the CF_DIEGO_RUN_BETA environment variable for the app' do
+              expect(runner).to receive(:cf!).with(/push/)
+              expect(runner).to receive(:cf!).with(/set-env #{app_name} CF_DIEGO_RUN_BETA true/)
+              breeder.breed(logger, runner)
+            end
+          end
+
+          context 'when not using diego' do
+            it 'does not set the CF_DIEGO_RUN_BETA environment variable' do
+              expect(runner).not_to receive(:cf!).with(/DIEGO/)
+              breeder.breed(logger, runner)
+            end
+          end
         end
       end
 
