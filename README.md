@@ -34,57 +34,80 @@ Install the cf_canaries cli by running these commands:
 
 ### Aviary Canary
 
-This canary can be found at aviary.<app-domain>.
+This canary can be found at `aviary.<app-domain>`.
+
 `/instances_aviary` will respond with a 200 if the `/instances_pinged_aviary` and `/instances_from_cf_aviary` checks succeed.
+
 `/instances_pinged_aviary` will ping the instances canary (4 * # of instances) times. It will return a 200 if all instances respond.
+
 `/instances_from_cf_aviary` will check the status of the the instances of the instances canary. It will return a 200 if 80% or more of the instances are reporting as running.
+
 `/zero_downtime_aviary` will check all of the zero-downtime-canaries and will respond with a 200 if all are responding.
+
 `/instances_heartbeats/:index` is the endpoint which the instances canary will hit in order to register a heart beat.
+
 `/instances_heartbeats` will return a 200 if all instances of the instances canary have heartbeated within 15 seconds. 
 
 ### Long Running Canary
 
-This canary can be found at long-running-canary.<app-domain>.
+This canary can be found at `long-running-canary.<app-domain>`.
+
 It will return "Hello, World!" when you make an http request to its root `/`.
 
 ### Zero Downtime Canary
 
-This canary can be found at zero-downtime-canary<index>.<app-domain>.
+This canary can be found at `zero-downtime-canary<index>.<app-domain>`.
+
 This canary is meant to be pushed with multiple instances, specified with the `--number-of-zero-downtime-apps` flag.
+
 It returns "Zero downtime canary sings" when you make an http request to its root `/`.
+
 If you have more than one instance and more than one DEA in your deployment this app should always respond.
 
 ### CPU Canary
 
-This canary can be found at cpu.<app-domain>.
+This canary can be found at `cpu.<app-domain>`.
+
 This canary is meant to constantly be using a certain percentage of CPU.
+
 It will return "Sing" when you make an http request to its root `/`.
 
 ### Disk Canary
 
-This canary can be found at disk.<app-domain>.
+This canary can be found at `disk.<app-domain>`.
+
 This canary creates a file of size SPACE on disk inside its container.
+
 It will return "Sing" when you make an http request to its root `/`.
 
 ### Memory Canary
 
-This canary can be found at memory.<app-domain>.
+This canary can be found at `memory.<app-domain>`.
+
 This canary will increase memory usage to MEMORY. 
+
 It will return "Sing" when you make an http request to its root `/`.
 
 ### Network Canary
 
-This canary can be found at network.<app-domain>.
+This canary can be found at `network.<app-domain>`.
+
 This canary will attempt to contact www.google.com when you make an http request to its root `/`.
+
 It will return "Canary croaked" if it fails to reach www.google.com.
+
 It will return "Canary sings" if it succeeds to reach www.google.com.
 
 ### Instances Canary
 
-This canary can be found at instances-canary.<app-domain>.
+This canary can be found at `instances-canary.<app-domain>`.
+
 It will return "Hello Canary Tweet Tweet Chirp Chirp!" when you make an http request to its root `/`.
+
 It will return the instance index of the responding instance when you make an http request to `/instance-index`.
+
 All of the instances will heartbeat to the Aviary canary every 10 seconds.
+
 The Aviary will keep track of whether or not instances are heartbeating.
 
 ## Contributing
