@@ -23,6 +23,8 @@ Install the cf_canaries cli by running these commands:
                --organization=<Cloudfoundry Organization> \
                --space=<Cloudfoundry Space>
 
+If SSL in not enabled you can also specify the `--skip-ssl-validation` flag.
+
 
 ### Optional command-line flags
 
