@@ -22,6 +22,10 @@ ZERO_DOWNTIME_APP_NAME = 'zero-downtime-canary'
 
 set :port, ENV["PORT"].to_i
 
+get '/' do
+  File.read(File.join('public', 'index.html'))
+end
+
 get "/instances_aviary" do
   aviary = InstancesAviary.new(TARGET, DOMAIN, USERNAME, PASSWORD, ORG, SPACE, INSTANCES_CANARY_APP_NAME, INSTANCES_CANARY_NUM_INSTANCES)
   check(aviary)

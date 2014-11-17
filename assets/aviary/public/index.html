@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>CF Aviary App</h1>
+
+<p>
+CF Canaries Repo: <a href="https://github.com/pivotal-cf-experimental/cf_canaries.git">https://github.com/pivotal-cf-experimental/cf_canaries.git</a>
+Visit the Repo in order to learn about the different canaries and the metrics that they are monitoring.
+</p>
+
+  <ul>
+    <li>
+'/instances_aviary' will respond with a 200 if the '/instances_pinged_aviary' and '/instances_from_cf_aviary' checks succeed.
+</li>
+
+    <li>
+'/instances_pinged_aviary' will ping the instances canary (4 * # of instances) times. It will return a 200 if all instances respond.
+</li>
+
+    <li>
+'/instances_from_cf_aviary' will check the status of the the instances of the instances canary. It will return a 200 if 80% or more of the instances are reporting as running.
+</li>
+
+    <li>
+'/zero_downtime_aviary' will check all of the zero-downtime-canaries and will respond with a 200 if all are responding.
+</li>
+
+    <li>
+'/instances_heartbeats/:index' is the endpoint which the instances canary will hit in order to register a heart beat.
+</li>
+
+    <li>
+'/instances_heartbeats' will return a 200 if all instances of the instances canary have heartbeated within 15 seconds.
+</li>
+</ul>
+
+</body>
+</html>
+
