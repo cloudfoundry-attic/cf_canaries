@@ -31,18 +31,19 @@ If SSL in not enabled you can also specify the `--skip-ssl-validation` flag.
 - `--dry-run`: If set, shows all the commands the canary breeder will run without actually executing them
 - `--number-of-instances-per-app=<n>`: Push n instances of each app (apart from the instances canaries). Defaults to 1.
 
-
 ## Canaries
+
+The different types of canaries all correlate to different metrics that we want to be aware of.  Each canary's purpose is documented below.
 
 ### Aviary Canary
 
-This canary can be found at `aviary.<app-domain>`.
+This canary can be found at `aviary.<app-domain>`.  It is meant to aggregate response information from the zero-downtime-canary and instances-canary applications.
 
 `/instances_aviary` will respond with a 200 if the `/instances_pinged_aviary` and `/instances_from_cf_aviary` checks succeed.
 
-`/instances_pinged_aviary` will ping the instances canary (4 * # of instances) times. It will return a 200 if all instances respond.
+`/instances_pinged_aviary` will send (4 * # of instances) requests to the instances canary. It will return a 200 if 80% or more of instances respond.
 
-`/instances_from_cf_aviary` will check the status of the the instances of the instances canary. It will return a 200 if 80% or more of the instances are reporting as running.
+`/instances_from_cf_aviary` will check on the number of running instances for the instances canary app using the CFoundry::Client library. It will return a 200 if 80% or more of the instances are reporting as running.
 
 `/zero_downtime_aviary` will check all of the zero-downtime-canaries and will respond with a 200 if all are responding.
 
