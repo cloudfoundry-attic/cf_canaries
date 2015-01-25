@@ -12,15 +12,17 @@ var addr = flag.String("addr", ":8000", "http service address")
 func main() {
 	flag.Parse()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := http.Get("http://google.com/")
-
-		if err == nil {
-			fmt.Fprintf(w, "Canary sings")
-		} else {
-			panic("Canary croaked")
-		}
-	})
+	http.HandleFunc("/", pingGoogle)
 
 	log.Fatal(http.ListenAndServe(*addr, nil))
+}
+
+func pingGoogle(w http.ResponseWriter, r *http.Request) {
+	res, err := http.Get("http://google.com/")
+	if err != nil {
+		panic("Canary croaked")
+	}
+
+	res.Body.Close()
+	fmt.Fprintf(w, "Canary sings")
 }
