@@ -1,40 +1,63 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>CF Aviary</title>
+    <style type="text/css">
+      *, body {
+        font-family: sans-serif;
+        line-height: 1.5;
+      }
 
-<h1>CF Aviary App</h1>
+      .wrapper {
+        text-align: center;
+      }
 
-<p>
-CF Canaries Repo: <a href="https://github.com/pivotal-cf-experimental/cf_canaries.git">https://github.com/pivotal-cf-experimental/cf_canaries.git</a>
-Visit the Repo in order to learn about the different canaries and the metrics that they are monitoring.
-</p>
+      .content {
+        text-align: left;
+        margin: auto;
+        margin-top: 30px;
+        width: 960px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content">
+        <h1>CF Aviary App</h1>
 
-  <ul>
-    <li>
-'/instances_aviary' will respond with a 200 if the '/instances_pinged_aviary' and '/instances_from_cf_aviary' checks succeed.
-</li>
+        <p>
+          CF Canaries Repo: <a href="https://github.com/pivotal-cf-experimental/cf_canaries.git">https://github.com/pivotal-cf-experimental/cf_canaries.git</a>
+          Visit the Repo in order to learn about the different canaries and the metrics that they are monitoring.
+        </p>
 
-    <li>
-'/instances_pinged_aviary' will ping the instances canary (4 * # of instances) times. It will return a 200 if all instances respond.
-</li>
+        <ul>
+          <li>
+            <a href="/instances_aviary">/instances_aviary</a> will respond with a 200 if the '/instances_pinged_aviary' and '/instances_from_cf_aviary' checks succeed.
+          </li>
 
-    <li>
-'/instances_from_cf_aviary' will check the status of the the instances of the instances canary. It will return a 200 if 80% or more of the instances are reporting as running.
-</li>
+          <li>
+            <a href="/instances_pinged_aviary">/instances_pinged_aviary</a> will ping the instances canary (4 * # of instances) times. It will return a 200 if all instances respond.
+          </li>
 
-    <li>
-'/zero_downtime_aviary' will check all of the zero-downtime-canaries and will respond with a 200 if all are responding.
-</li>
+          <li>
+            <a href="/instances_from_cf_aviary">/instances_from_cf_aviary</a> will check the status of the the instances of the instances canary. It will return a 200 if 80% or more of the instances are reporting as running.
+          </li>
 
-    <li>
-'/instances_heartbeats/:index' is the endpoint which the instances canary will hit in order to register a heart beat.
-</li>
+          <li>
+            <a href="/zero_downtime_aviary">/zero_downtime_aviary</a> will check all of the zero-downtime-canaries and will respond with a 200 if all are responding.
+          </li>
 
-    <li>
-'/instances_heartbeats' will return a 200 if all instances of the instances canary have heartbeated within 15 seconds.
-</li>
-</ul>
+          <li>
+            <a href="/instances_heartbeats/:index">/instances_heartbeats</a>/:index is the endpoint which the instances canary will hit in order to register a heart beat.
+          </li>
 
-</body>
+          <li>
+            <a href="/instances_heartbeats">/instances_heartbeats</a> will return a 200 if all instances of the instances canary have heartbeated within 15 seconds.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
 </html>
 
