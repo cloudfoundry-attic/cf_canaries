@@ -30,7 +30,7 @@ module CfCanaries
       end
 
       it 'logs in and targets the specified organization and space' do
-        expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space")
+        expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space", :skip_logging_command => true)
         breeder.breed(logger, runner)
       end
 
@@ -94,6 +94,52 @@ module CfCanaries
 
       describe 'aviary' do
         it_pushes_an_app_if_it_does_not_exist('aviary', 4)
+
+        context 'when app does not exist' do
+          before do
+            expect(runner).to receive(:cf!).with('app aviary').and_raise
+          end
+
+          it 'sets TARGET environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary TARGET/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets USERNAME environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary USERNAME/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets PASSWORD environment variable silently' do
+            expect(runner).to receive(:cf!).with(/set-env aviary PASSWORD/, :skip_logging_command => true, :hide_command_output => true)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets DOMAIN environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary DOMAIN/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets ORG environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary ORG/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets SPACE environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary SPACE/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets ZERO_DOWNTIME_NUM_INSTANCES environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary ZERO_DOWNTIME_NUM_INSTANCES/)
+            breeder.breed(logger, runner)
+          end
+
+          it 'sets INSTANCES_CANARY_NUM_INSTANCES environment variable normally' do
+            expect(runner).to receive(:cf!).with(/set-env aviary INSTANCES_CANARY_NUM_INSTANCES/)
+            breeder.breed(logger, runner)
+          end
+        end
       end
 
       describe 'cpu canary' do

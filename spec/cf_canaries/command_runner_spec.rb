@@ -10,7 +10,7 @@ module CfCanaries
     let(:command) { 'apps' }
 
     before do
-      allow(Process).to receive(:spawn).and_return(1234)
+      allow(Process).to receive(:spawn).with({}, 'bash', '-c', 'my-cf apps', {}).and_return(1234)
       allow(Process).to receive(:wait2).with(1234)
     end
 
@@ -31,6 +31,28 @@ module CfCanaries
           expect(Process).not_to receive(:wait2)
 
           command_runner.cf!(command)
+        end
+      end
+
+      describe 'skipping logging the command' do
+        it 'does not log the command but still runs and waits for the process' do
+          expect(logger).not_to receive(:info)
+          expect(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: true)])
+
+          command_runner.cf!(command, :skip_logging_command => true)
+        end
+      end
+
+      describe 'hiding the command output' do
+        before do
+          allow(Process).to receive(:spawn).with({}, 'bash', '-c', 'my-cf apps', {:out => '/dev/null', :err => '/dev/null'}).and_return(1234)
+        end
+
+        it 'logs the command, runs and waits for the process, but redirects output and error to "/dev/null"' do
+          expect(logger).to receive(:info).with('my-cf apps')
+          expect(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: true)])
+
+          command_runner.cf!(command, :hide_command_output => true)
         end
       end
 

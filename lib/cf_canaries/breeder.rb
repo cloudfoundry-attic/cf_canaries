@@ -13,7 +13,9 @@ module CfCanaries
         @options.target,
         @options.skip_ssl_validation ? "--skip-ssl-validation" : nil
       ].compact.join(' '))
-      runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}")
+      logger.info "Logging in as '#{@options.username}' user to '#{@options.organization}' org, '#{@options.space}' space."
+      runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}", :skip_logging_command => true)
+      logger.info "Succeeded logging in."
 
       logger.info 'breeding canaries'
 
@@ -56,7 +58,6 @@ module CfCanaries
         ZERO_DOWNTIME_NUM_INSTANCES: @options.number_of_zero_downtime_apps,
         INSTANCES_CANARY_NUM_INSTANCES: @options.number_of_instances_canary_instances,
       }
-
 
       push_app(logger, runner, 'aviary', env)
     end
@@ -131,7 +132,14 @@ module CfCanaries
       end
 
       env.each do |k, v|
-        runner.cf!("set-env #{name} #{k} '#{v}'")
+        command = "set-env #{name} #{k} '#{v}'"
+        if k == :PASSWORD
+          logger.info "Setting environment variable '#{k}' for app '#{name}'."
+          runner.cf!(command, :skip_logging_command => true, :hide_command_output => true)
+          logger.info "Succeeded setting environment variable."
+        else
+          runner.cf!(command)
+        end
       end
 
       runner.cf!("start #{name}")
