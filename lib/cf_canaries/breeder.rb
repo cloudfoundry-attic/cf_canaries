@@ -83,7 +83,9 @@ module CfCanaries
 
     def push_instances_canary(logger, runner)
       push_app(
-        logger, runner, 'instances-canary', {},
+        logger, runner, 'instances-canary', {
+          AVIARY: "aviary.#{@options.app_domain}"
+        },
         instances:      @options.number_of_instances_canary_instances,
         memory:         '128M',
         directory_name: 'instances'
