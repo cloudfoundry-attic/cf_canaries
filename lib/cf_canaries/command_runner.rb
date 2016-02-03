@@ -23,7 +23,12 @@ module CfCanaries
 
       _, status = Process.wait2(pid)
 
-      raise "Command failed: #{command.inspect})".gsub(/#{password}/,"REDACTED") unless status.success?
+      if !status.success?
+        error_message = "Command failed: #{command.inspect})"
+        error_message = error_message.gsub(/#{password}/,"REDACTED") if password.present?
+
+        raise error_message
+      end
     end
 
     def spawn(command, hide_command_output)

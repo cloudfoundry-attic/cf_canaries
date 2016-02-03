@@ -74,7 +74,7 @@ module CfCanaries
         it "logs the command but does not run it" do
           expect(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: false)])
 
-          expect { command_runner.cf!(command) }.to raise_error
+          expect { command_runner.cf!(command) }.to raise_error(/Command failed: "my-cf apps"/)
         end
       end
     end
