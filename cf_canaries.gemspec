@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Cloud Foundry Team']
   spec.email         = %w(cf-eng@pivotallabs.com)
   spec.summary       = %q{Tool to install 'canary' apps to detect anomalies on a Cloud Foundry deployment}
-  spec.homepage      = 'http://github.com/pivotal-cf-experimental/cf_canaries'
+  spec.homepage      = 'http://github.com/cloudfoundry-incubator/cf_canaries'
   spec.license       = 'Apache 2.0'
 
   spec.files         = `git ls-files -z`.split("\x0")
