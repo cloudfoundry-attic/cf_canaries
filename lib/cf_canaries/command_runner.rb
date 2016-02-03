@@ -25,7 +25,7 @@ module CfCanaries
 
       if !status.success?
         error_message = "Command failed: #{command.inspect})"
-        error_message = error_message.gsub(/#{password}/,"REDACTED") if password.present?
+        error_message = error_message.gsub(/#{password}/,"REDACTED") if password
 
         raise error_message
       end
