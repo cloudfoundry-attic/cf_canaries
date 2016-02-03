@@ -14,7 +14,7 @@ module CfCanaries
         @options.skip_ssl_validation ? "--skip-ssl-validation" : nil
       ].compact.join(' '))
       logger.info "Logging in as '#{@options.username}' user to '#{@options.organization}' org, '#{@options.space}' space."
-      runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}", :skip_logging_command => true)
+      runner.cf!("login -u '#{@options.username}' -p '#{@options.password}' -o #{@options.organization} -s #{@options.space}", :skip_logging_command => true, :password=>@options.password)
       logger.info "Succeeded logging in."
 
       logger.info 'breeding canaries'

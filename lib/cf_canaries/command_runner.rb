@@ -9,12 +9,12 @@ module CfCanaries
     end
 
     def cf!(command, options={})
-      run!("#{@cf_command} #{command}", options[:skip_logging_command], options[:hide_command_output])
+      run!("#{@cf_command} #{command}", options[:skip_logging_command], options[:hide_command_output], options[:password])
     end
 
     private
 
-    def run!(command, skip_logging_command, hide_command_output)
+    def run!(command, skip_logging_command, hide_command_output, password)
       @logger.info(command) unless skip_logging_command
 
       return if @dry_run
@@ -23,7 +23,7 @@ module CfCanaries
 
       _, status = Process.wait2(pid)
 
-      raise "Command failed: #{command.inspect})" unless status.success?
+      raise "Command failed: #{command.inspect})".gsub(/#{password}/,"REDACTED") unless status.success?
     end
 
     def spawn(command, hide_command_output)

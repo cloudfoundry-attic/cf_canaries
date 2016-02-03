@@ -30,7 +30,7 @@ module CfCanaries
       end
 
       it 'logs in and targets the specified organization and space' do
-        expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space", :skip_logging_command => true)
+        expect(runner).to receive(:cf!).with("login -u 'username' -p 'password' -o canary-org -s canary-space", :skip_logging_command => true, :password=>"password")
         breeder.breed(logger, runner)
       end
 

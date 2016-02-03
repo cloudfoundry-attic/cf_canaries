@@ -15,6 +15,20 @@ module CfCanaries
     end
 
     describe "#cf!" do
+      context "when the command contains a password" do
+        let(:password) { "password" }
+        let(:command) { "login -p #{password}" }
+
+        before do
+          allow(Process).to receive(:spawn).with({}, 'bash', '-c', "my-cf login -p #{password}", {}).and_return(1234)
+          allow(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: false)])
+        end
+
+        it 'does not show the password in the error message' do
+          expect{ command_runner.cf!(command, :password => password) }.to raise_error(RuntimeError, /Command failed: "my-cf login -p REDACTED"/)
+        end
+      end
+
       it "logs the command and waits on the spawned process" do
         expect(logger).to receive(:info).with('my-cf apps')
         expect(Process).to receive(:wait2).and_return([1234, double('Process::Status', success?: true)])
