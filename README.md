@@ -10,7 +10,7 @@ Install the cf_canaries cli by running these commands:
 
     $ bundle
     $ gem build cf_canaries.gemspec
-    $ gem install cf_canaries-0.1.1.gem
+    $ gem install cf_canaries-0.1.2.gem
 
 ## Usage
 
